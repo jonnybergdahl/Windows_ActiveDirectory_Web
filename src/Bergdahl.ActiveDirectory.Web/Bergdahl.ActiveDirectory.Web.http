@@ -1,0 +1,6 @@
+@Bergdahl.ActiveDirectory.Web_HostAddress = http://localhost:5079
+
+GET {{Bergdahl.ActiveDirectory.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

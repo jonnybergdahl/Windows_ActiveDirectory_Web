@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "User Management";
+    ViewData["ActivePage"] = "Users";
+}
+
+<h1>User Management</h1>
+
+<div class="controls">
+    <label><strong>Target OU/Container:</strong></label>
+    <select id="um-adpath" onchange="loadUsers()"></select>
+    <button class="primary" onclick="loadUsers()">Refresh List</button>
+</div>
+
+<h3>Create New User</h3>
+<div class="add-form">
+    <div style="display:flex; flex-direction:column; gap:12px; width:100%">
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+            <input id="um-login" placeholder="Login Name (samAccountName)">
+            <input id="um-first" placeholder="First Name">
+            <input id="um-last" placeholder="Last Name">
+            <input id="um-pass" type="password" placeholder="Password">
+        </div>
+        <div style="display:flex; gap:10px; align-items: center; flex-wrap:wrap">
+            <label><strong>Add to Groups:</strong></label>
+            <select id="um-group-select">
+                <option value="">Select group...</option>
+            </select>
+            <button class="secondary" onclick="addGroupToNewUser()">Add Group</button>
+            <button class="primary" onclick="createUser()" style="margin-left: auto;">Create User</button>
+        </div>
+        <div id="selected-groups-list" class="selected-groups"></div>
+    </div>
+</div>
+
+<h3>Users in Selected OU</h3>
+<div class="search-box">
+    <input id="search" placeholder="Filter users..." oninput="filterUsers()">
+</div>
+<div id="userCount" class="item-count"></div>
+
+<table>
+    <thead>
+    <tr>
+        <th onclick="sortUsers('userLoginName')"># <span class="sort-arrow"></span></th>
+        <th onclick="sortUsers('userLoginName')">Login Name <span class="sort-arrow" id="sort-userLoginName"></span></th>
+        <th onclick="sortUsers('firstName')">First Name <span class="sort-arrow" id="sort-firstName"></span></th>
+        <th onclick="sortUsers('lastName')">Last Name <span class="sort-arrow" id="sort-lastName"></span></th>
+        <th style="width: 250px;">Actions</th>
+    </tr>
+    </thead>
+    <tbody id="user-list">
+    <tr><td colspan="5" class="loading">Select an OU or click Refresh...</td></tr>
+    </tbody>
+</table>
+
+<!-- Change Password Modal -->
+<div id="passwordModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Change Password</h3>
+            <span class="modal-close" onclick="closeModal('passwordModal')">&times;</span>
+        </div>
+        <div>
+            <p>Changing password for: <strong id="pw-target-user"></strong></p>
+            <input type="password" id="pw-new-pass" placeholder="New Password" style="width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+            <input type="password" id="pw-confirm-pass" placeholder="Confirm New Password" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div class="modal-footer">
+            <button class="secondary" onclick="closeModal('passwordModal')">Cancel</button>
+            <button class="primary" onclick="submitChangePassword()">Change Password</button>
+        </div>
+    </div>
+</div>
+
+<!-- Group Membership Modal -->
+<div id="groupModal" class="modal">
+    <div class="modal-content" style="width: 500px;">
+        <div class="modal-header">
+            <h3>Group Membership</h3>
+            <span class="modal-close" onclick="closeModal('groupModal')">&times;</span>
+        </div>
+        <div>
+            <p>Managing groups for: <strong id="gm-target-user"></strong></p>
+            
+            <h4>Current Memberships</h4>
+            <div id="gm-current-groups" style="margin-bottom: 20px; border: 1px solid #eee; border-radius: 4px; max-height: 200px; overflow-y: auto;">
+                <table style="margin-top: 0;">
+                    <tbody id="gm-current-groups-body">
+                        <tr><td>Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Add to Group</h4>
+            <div style="display: flex; gap: 10px;">
+                <select id="gm-group-select" style="flex: 1;">
+                    <option value="">Loading groups...</option>
+                </select>
+                <button class="primary" onclick="submitAddToGroup()">Add Group</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="secondary" onclick="closeModal('groupModal')">Close</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/users.js"></script>
+}

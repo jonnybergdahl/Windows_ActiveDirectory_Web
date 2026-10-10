@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/Bergdahl.ActiveDirectory.Core/Bergdahl.ActiveDirectory.Core.csproj" />
+  <Project Path="src/Bergdahl.ActiveDirectory.Web/Bergdahl.ActiveDirectory.Web.csproj" />
+  <Project Path="src/Bergdahl.ActiveDirectory.Mock/Bergdahl.ActiveDirectory.Mock.csproj" />
+  <Project Path="src/Bergdahl.ActiveDirectory.Tests/Bergdahl.ActiveDirectory.Tests.csproj" />
+</Solution>

@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "DNS Management";
+    ViewData["ActivePage"] = "DNS";
+}
+
+<h1>DNS Record Manager</h1>
+
+<div class="controls">
+    <label><strong>Zone:</strong></label>
+    <select id="zone" onchange="loadRecords()"></select>
+    <button class="primary" onclick="loadRecords()">Refresh</button>
+</div>
+
+<h3>Add New Host Record</h3>
+<div class="add-form">
+    <input id="hostname" placeholder="Hostname (e.g. webserver01)">
+    <input id="ip" placeholder="IP Address (e.g. 10.0.0.50)">
+    <button class="primary" onclick="addRecord()">Add Record</button>
+</div>
+
+<h3>Add New Alias (CNAME) Record</h3>
+<div class="add-form">
+    <input id="aliasName" placeholder="Alias (e.g. blog)">
+    <select id="targetHost">
+        <option value="">Select Target Host...</option>
+    </select>
+    <button class="primary" onclick="addCnameRecord()">Add Alias</button>
+</div>
+
+<h3>Assigned Hosts</h3>
+<div class="search-box">
+    <input id="search" placeholder="Filter records..." oninput="filterRecords()">
+</div>
+<div id="recordCount" class="record-count"></div>
+
+<table>
+    <thead>
+    <tr>
+        <th onclick="sortTable('hostName')"># <span class="sort-arrow"></span></th>
+        <th onclick="sortTable('hostName')">Hostname <span class="sort-arrow" id="sort-hostName"></span></th>
+        <th onclick="sortTable('recordType')">Type <span class="sort-arrow" id="sort-recordType"></span></th>
+        <th onclick="sortTable('ipAddress')">IP Address / Target <span class="sort-arrow" id="sort-ipAddress"></span></th>
+        <th onclick="sortTable('ttl')">TTL <span class="sort-arrow" id="sort-ttl"></span></th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody id="records">
+    <tr><td colspan="6" class="loading">Loading records...</td></tr>
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="/js/dns.js"></script>
+}

@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"] - ADControl</title>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="/images/ADCentral40.png" alt="ADCentral Logo" style="height: 40px;">
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span id="header-username" style="font-size: 14px;"></span>
+        <div class="profile-dropdown">
+            <div class="profile-icon" onclick="toggleDropdown()">👤</div>
+            <div id="profileDropdown" class="dropdown-content">
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="main-container">
+    <div class="sidebar">
+        <a href="/" class="@(ViewData["ActivePage"]?.ToString() == "DNS" ? "active" : "")">DNS Management</a>
+        <a href="/users" class="@(ViewData["ActivePage"]?.ToString() == "Users" ? "active" : "")">User Management</a>
+    </div>
+
+    <div class="content">
+        @RenderBody()
+    </div>
+</div>
+
+<footer>
+    - ADControl - Copyright 2026 Jinny Bergdahl - This project is open source - <a href="https://github.com/jonnybergdahl/Windows_ActiveDirectory_Web" target="_blank">Checkout out Github repository</a> -
+</footer>
+
+<div id="status-container"></div>
+
+<!-- Confirmation Modal (Shared) -->
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="confirmTitle">Confirm Action</h3>
+            <span class="modal-close" onclick="closeModal('confirmModal')">&times;</span>
+        </div>
+        <div id="confirmMessage">
+            Are you sure you want to proceed?
+        </div>
+        <div class="modal-footer">
+            <button class="secondary" onclick="closeModal('confirmModal')">Cancel</button>
+            <button id="confirmBtn" class="danger">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script src="/js/site.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
